@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+
+<head>
+    <!-- Basic Page Needs
+	–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta charset="utf-8">
+    <title>Quiz User</title>
+    <meta name="description" content="User page for finishing quiz">
+    <meta name="author" content="Harley Guan">
+
+    <!-- Mobile Specific Metas
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- FONT
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link href='//fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+
+    <!-- CSS
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css" />
+    <link rel="stylesheet" href="css/quiz.css">
+
+    <!-- Scripts
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.7/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.7/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.7/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.7/firebase-database.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
+    <script src="js/config.js"></script>
+
+</head>
+
+
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <p class="navbar-brand" id="user-welcome">Welcome!</p>
+    </nav>
+    <div class="container" id="alert-message-div"></div> 
+	
+	<div class="container">
+	
+		<!-- init-container -->
+	
+		<div id="init-container">
+			<h1>Please select a diffculty to start your quiz!</h1>
+			<br><br><br>
+			<button type="button" class="btn btn-warning" id="btn-easy">EASY</button>
+			<button type="button" class="btn btn-danger" id="btn-hard">HARD</button>
+			  
+		</div>
+	
+		<!-- text-container -->
+	
+	    <div id="text-container">
+		
+		  
+		  
+        </div>
+		
+		<!-- btn-container -->
+		
+		<div id="btn-container">
+			<button type="button" class="btn btn-success" id="btn-submit">SUBMIT</button>
+		</div>
+		
+		
+	</div>
+	
+	<!-- Javascript files -->
+
+    <script src="js/model/EventDispatcher.js"></script>
+    <script src="js/model/UserModel.js"></script>
+    <script src="js/view/UserView.js"></script>
+    <script src="js/controller/UserController.js"></script>
+    <script src="js/UserApp.js"></script>
+
+</body>
+
+</html>

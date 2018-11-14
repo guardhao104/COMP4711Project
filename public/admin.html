@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+
+<head>
+    <!-- Basic Page Needs
+	–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta charset="utf-8">
+    <title>Quiz Creator Admin</title>
+    <meta name="description" content="Admin page for quiz creator">
+    <meta name="author" content="Harley Guan">
+
+    <!-- Mobile Specific Metas
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- FONT
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link href='//fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+
+    <!-- CSS
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+		<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css" />
+		<link rel="stylesheet" href="css/quiz.css">
+
+    <!-- Scripts
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/5.5.7/firebase.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/5.5.7/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/5.5.7/firebase-auth.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/5.5.7/firebase-database.js"></script>
+		<script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
+		<script src="js/config.js"></script>
+
+</head>
+
+
+<body>
+
+	<div class="container">
+	
+		<!-- text-container -->
+	
+	    <div id="text-container">
+		
+		  <div class="question-block" id="block1">
+			<div class="btn-group btn-group-toggle">
+			<p class="font-weight-bold">Question Text &lowast;</p>
+			<div class="tagbtn">
+			  <label class="btn btn-warning">
+				<input type="radio" name="difficult1" id="easy1" autocomplete="off" checked> EASY
+			  </label>
+			  <label class="btn btn-danger">
+				<input type="radio" name="difficult1" id="hard1" autocomplete="off"> HARD
+			  </label>
+			</div>
+			</div>
+			<div class="input-group">
+			  <textarea class="form-control question" id="q1text"></textarea>
+			</div>
+			<p class="font-weight-bold">Answers &lowast;</p>
+			<div class="input-group">
+			  <div class="input-group-prepend">
+				<div class="input-group-text">
+				  <input type="radio" name="q1" id="q11">
+				</div>
+			  </div>
+			  <input type="text" class="form-control option" id="q1a_text">
+			</div>
+			<div class="input-group">
+			  <div class="input-group-prepend">
+				<div class="input-group-text">
+				  <input type="radio" name="q1" id="q12">
+				</div>
+			  </div>
+			  <input type="text" class="form-control option" id="q1b_text">
+			</div>
+			<div class="input-group">
+			  <div class="input-group-prepend">
+				<div class="input-group-text">
+				  <input type="radio" name="q1" id="q13">
+				</div>
+			  </div>
+			  <input type="text" class="form-control option" id="q1c_text">
+			</div>
+			<div class="input-group">
+			  <div class="input-group-prepend">
+				<div class="input-group-text">
+				  <input type="radio" name="q1" id="q14">
+				</div>
+			  </div>
+			  <input type="text" class="form-control option" id="q1d_text">
+			</div>
+		  </div>
+		  
+        </div>
+		
+		<!-- btn-container -->
+		
+		<div id="btn-container">
+			<button type="button" class="btn btn-primary" id="btn-add">&nbsp; ADD &nbsp;</button>
+			<button type="button" class="btn btn-primary" id="btn-remove">REMOVE</button>
+			<br>
+			<button type="button" class="btn btn-success" id="btn-submit">SUBMIT</button>
+		</div>
+		
+		
+	</div>
+	
+	<!-- Javascript files -->
+
+    <script src="js/model/EventDispatcher.js"></script>
+    <script src="js/model/AdminModel.js"></script>
+    <script src="js/view/AdminView.js"></script>
+    <script src="js/controller/AdminController.js"></script>
+    <script src="js/App.js"></script>
+
+</body>
+
+</html>
