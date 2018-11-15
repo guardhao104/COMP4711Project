@@ -7,11 +7,11 @@ function toggleSignIn() {
       var email = document.getElementById('email').value;
       var password = document.getElementById('password').value;
       if (email.length < 4) {
-        alert('Please enter an email address.');
+        noEmailErrMsg();
         return;
       }
       if (password.length < 4) {
-        alert('Please enter a password.');
+        noPasswordErrMsg();
         return;
       }
       // Sign in with email and pass.
@@ -33,8 +33,8 @@ function toggleSignIn() {
           //alert('Wrong password.');
           message.innerHTML = "Your account information or password is wrong. Please check again."
         } else {
-          alert(errorMessage);
-          message.innerHTML = '';
+          message.innerHTML = errorMessage;
+          //message.innerHTML = '';
         }
         console.log(error);
         document.getElementById('signin').disabled = false;
@@ -51,11 +51,11 @@ function toggleSignIn() {
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
     if (email.length < 4) {
-      alert('Please enter an email address.');
+      noEmailErrMsg();
       return;
     }
     if (password.length < 4) {
-      alert('Please enter a password.');
+      noPasswordErrMsg();
       return;
     }
     // Sign in with email and pass.
@@ -118,3 +118,18 @@ function toggleSignIn() {
   window.onload = function() {
     initApp();
   };
+function noEmailErrMsg(){
+  message.innerHTML = "Please enter an email address.";
+  //message.className += " form-group has-warning has-feedback";
+  //document.getElementById("message-glyph").className = "glyphicon glyphicon-warning form-control-feedback";
+  document.getElementById("email-wrapper").className = "form-group has-error has-feedback";
+  //document.getElementById("email-glyph").className = "glyphicon glyphicon-remove form-control-feedback";
+};
+function noPasswordErrMsg(){
+  document.getElementById("password-wrapper").className = "form-group has-warning has-feedback";
+  message.innerHTML = "Please enter a password.";
+  //message.className += " form-group has-warning has-feedback";
+  //document.getElementById("message-glyph").className = "glyphicon glyphicon-remove form-control-feedback";
+  //document.getElementById("password-glyph").className = "glyphicon glyphicon-remove form-control-feedback";
+  //document.getElementById("password-wrapper").className = "form-group has-error has-feedback";
+}
