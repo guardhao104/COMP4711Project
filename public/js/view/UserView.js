@@ -199,18 +199,21 @@ UserView.prototype = {
 	},
 
 	writeRankData: function(userID, email, score) {
-		this.database.ref('users/' + userID + '--' + this.model.getDiffecult() + '--').set({
-			email: email,
-			score: score
-		});
+		this.database.ref('users/' + userID + '--' + this.model.getDiffecult() + '--').once('value').then(function(snapshot) {
+			if (snapshot.val()) {
+				console.log("Already have record!");
+			} else {
+				this.database.ref('users/' + userID + '--' + this.model.getDiffecult() + '--').set({
+					email: email,
+					score: score
+				});
+			}
+		}.bind(this));
 	},
 
 	readRankData: function() {
 		this.database.ref('/users/').orderByChild('score').once('value').then(function(snapshot) {
 			snapshot.forEach(e => {
-				console.log(e);
-				console.log(e.val());
-				console.log(e.key);
 				if (e.key.indexOf('--' + this.model.getDiffecult() + '--') != -1) {
 					this.email.push(e.val().email);
 					this.score.push(e.val().score);
