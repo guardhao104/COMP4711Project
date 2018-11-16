@@ -21,6 +21,8 @@ exports.getScore = functions.https.onRequest((req, res) => {
         var email = (snapshot.val() && snapshot.val().email) || 'Anonymous';
         var score = (snapshot.val() && snapshot.val().score) || 'No record';
         return res.json({
+            uid: userId,
+            ver: quizVersion,
             email: email,
             score: score
         });
@@ -39,6 +41,7 @@ exports.getTotalTaken = functions.https.onRequest((req, res) => {
             }
         });
         return res.json({
+            ver: quizVersion,
             total: total
         });
     });
@@ -63,6 +66,8 @@ exports.getRank = functions.https.onRequest((req, res) => {
                     }
                 });
                 return res.json({
+                    uid: userId,
+                    ver: quizVersion,
                     rank: rank
                 });
             }
