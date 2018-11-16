@@ -33,3 +33,17 @@
 	margin: 40px auto;
 	text-align:center;
 }
+
+#message{
+	color: maroon;
+}
+
+.has-error{padding: 20px;
+    background-color: #f44336; /* Red */
+    color: white;
+    margin-bottom: 15px;
+}
+.error-feedback{padding: 20px;
+    background-color: #f19d96; /* Light Red */
+    margin-bottom: 15px;
+}
