@@ -20,6 +20,15 @@
     <!-- CSS
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <!--
+      apparently an old version here
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
+            integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+            crossorigin="anonymous">
+      how did you get the new version
+
+      also glyphs don't work.
+    -->
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css" />
     <link rel="stylesheet" href="css/quiz.css">
 
@@ -46,12 +55,16 @@
         </div>
         <div class="mdl-card__supporting-text mdl-color-text--grey-600">
           <p>Enter an email and password below and either sign in to an existing account or sign up</p>
-
-          <input class="mdl-textfield__input" style="display:inline;width:auto;" type="text" id="email" name="email" placeholder="Email"/>
-          <br/><br/>
-          <input class="mdl-textfield__input" style="display:inline;width:auto;" type="password" id="password" name="password" placeholder="Password"/>
-          <br/><br/>
-          <p class="text-justify" id="message" style="color:red;"></p>
+          <div class="form-group" id="email-wrapper">
+            <input class="mdl-textfield__input" style="display:inline;width:auto;" type="text" id="email" name="email" placeholder="Email"/>
+            <!--<span id="email-glyph"></span>-->
+          </div>
+          <div class="form-group" id="password-wrapper">
+            <input class="mdl-textfield__input" style="display:inline;width:auto;" type="password" id="password" name="password" placeholder="Password"/>
+            <!--<span class="glyphicon glyphicon-lock" id="password-glyph"></span>-->
+          </div>
+          <p class="text-justify" id="message"></p>
+          <span id="message-glyph"></span>
           <br/>
           <button type="button" class="btn btn-primary btn-lg" id="signin">Sign In</button>
           &nbsp;&nbsp;&nbsp;
