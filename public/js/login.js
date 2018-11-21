@@ -33,6 +33,7 @@ function toggleSignIn() {
           if (user.user.uid == admin_uid) {
             window.location.href="admin.html";
           } else {
+            //window.location.href="admin.html";
             window.location.href="user.html";
           }
       }).catch(function(error) {
@@ -40,10 +41,13 @@ function toggleSignIn() {
         var errorCode = error.code;
         var errorMessage = error.message;
         var message = document.getElementById('message');
+        message.className = "error-feedback";
         // [START_EXCLUDE]
         if (errorCode === 'auth/wrong-password') {
           //alert('Wrong password.');
-          message.innerHTML = "Your account information or password is wrong. Please check again."
+          message.innerHTML = "Your account information or password is wrong. Please check again.";
+          p_wrap = "form-group has-error has-feedback";
+          e_wrap = "form-group has-error has-feedback";
         } else {
           message.innerHTML = errorMessage;
           //message.innerHTML = '';
@@ -56,10 +60,10 @@ function toggleSignIn() {
     }
     document.getElementById('signin').disabled = true;
   }
-  /**
-   * Handles the sign up button press.
-   */
-  function handleSignUp() {
+/**
+ * Handles the sign up button press.
+ */
+function handleSignUp() {
     var safe = true;
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
@@ -91,13 +95,14 @@ function toggleSignIn() {
       var errorCode = error.code;
       var errorMessage = error.message;
       var message = document.getElementById('message');
+      message.className = "error-feedback";
       // [START_EXCLUDE]
       if (errorCode == 'auth/weak-password') {
         //alert('The password is too weak.');
         message.innerHTML = 'The password is too weak.';
+        p_wrap = "form-group has-error has-feedback";
       } else {
-        alert(errorMessage);
-        message.innerHTML = '';
+        message.innerHTML = errorMessage;
       }
       console.log(error);
       // [END_EXCLUDE]
