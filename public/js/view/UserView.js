@@ -177,8 +177,7 @@ UserView.prototype = {
 			</div>\
 		");
 		$("#btn-rank").click(function(){
-			if (this.email.length >= 3) {
-				this.reorderRank();
+			if (this.email.length == 3) {
 				this.showRank();
 			} else {
 				this.showRankAlert();
@@ -199,11 +198,12 @@ UserView.prototype = {
 	},
 
 	writeRankData: function(userID, email, score) {
-		this.database.ref('/records/' + this.model.getDiffecult() + '/' + email).once('value').then(function(snapshot) {
+		this.database.ref('/records/' + this.model.getDiffecult() + '/' + email.replace('.', '')).once('value').then(function(snapshot) {
 			if (snapshot.val()) {
 				console.log("Already have record!");
+				return;
 			} else {
-				this.database.ref('records/' + this.model.getDiffecult() + '/' + email).set({
+				this.database.ref('records/' + this.model.getDiffecult() + '/' + email.replace('.', '')).set({
 					email: email,
 					score: score
 				});
@@ -212,24 +212,12 @@ UserView.prototype = {
 	},
 
 	readRankData: function() {
-		this.database.ref('/records/' + this.model.getDiffecult() + '/').orderByChild('score').once('value').then(function(snapshot) {
+		this.database.ref('/records/' + this.model.getDiffecult() + '/').orderByChild('score').limitToLast(3).once('value').then(function(snapshot) {
 			snapshot.forEach(e => {
 				this.email.push(e.val().email);
 				this.score.push(e.val().score);
 			});
 		}.bind(this));
-	},
-
-	reorderRank: function() {
-		var length = this.email.length;
-		for (let i=0; i<length/2; ++i) {
-			let buffer1 = this.email[i];
-			this.email[i] = this.email[length - i - 1];
-			this.email[length - i - 1] = buffer1;
-			let buffer2 = this.score[i];
-			this.score[i] = this.score[length - i - 1];
-			this.score[length - i - 1] = buffer2;
-		}
 	},
 
 	showRank: function() {
@@ -248,8 +236,8 @@ UserView.prototype = {
 				<tbody>\
 					<tr>\
 					<th scope='row'>1</th>\
-					<td>"+ this.email[0] +"</td>\
-					<td>"+ this.score[0] +"</td>\
+					<td>"+ this.email[2] +"</td>\
+					<td>"+ this.score[2] +"</td>\
 					</tr>\
 					<tr>\
 					<th scope='row'>2</th>\
@@ -258,8 +246,8 @@ UserView.prototype = {
 					</tr>\
 					<tr>\
 					<th scope='row'>3</th>\
-					<td>"+ this.email[2] +"</td>\
-					<td>"+ this.score[2] +"</td>\
+					<td>"+ this.email[0] +"</td>\
+					<td>"+ this.score[0] +"</td>\
 					</tr>\
 				</tbody>\
 				</table>\
