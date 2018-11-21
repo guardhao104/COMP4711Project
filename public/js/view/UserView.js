@@ -199,11 +199,11 @@ UserView.prototype = {
 	},
 
 	writeRankData: function(userID, email, score) {
-		this.database.ref('users/' + userID + '--' + this.model.getDiffecult() + '--').once('value').then(function(snapshot) {
+		this.database.ref('/records/' + this.model.getDiffecult() + '/' + email).once('value').then(function(snapshot) {
 			if (snapshot.val()) {
 				console.log("Already have record!");
 			} else {
-				this.database.ref('users/' + userID + '--' + this.model.getDiffecult() + '--').set({
+				this.database.ref('records/' + this.model.getDiffecult() + '/' + email).set({
 					email: email,
 					score: score
 				});
@@ -212,12 +212,10 @@ UserView.prototype = {
 	},
 
 	readRankData: function() {
-		this.database.ref('/users/').orderByChild('score').once('value').then(function(snapshot) {
+		this.database.ref('/records/' + this.model.getDiffecult() + '/').orderByChild('score').once('value').then(function(snapshot) {
 			snapshot.forEach(e => {
-				if (e.key.indexOf('--' + this.model.getDiffecult() + '--') != -1) {
-					this.email.push(e.val().email);
-					this.score.push(e.val().score);
-				}
+				this.email.push(e.val().email);
+				this.score.push(e.val().score);
 			});
 		}.bind(this));
 	},

@@ -151,18 +151,10 @@ function clearErr(){
 function noEmailErrMsg(){
   message.innerHTML += "Please enter an email address.<br/>";
   message.className = "error-feedback";
-  //message.className += " form-group has-warning has-feedback";
-  //document.getElementById("message-glyph").className = "glyphicon glyphicon-warning form-control-feedback";
   document.getElementById("email-wrapper").className = "form-group has-error has-feedback";
-  //document.getElementById("email").className = "mdl-textfield__input form-group has-error has-feedback";
-  //document.getElementById("email-glyph").className = "glyphicon glyphicon-remove form-control-feedback";
 };
 function noPasswordErrMsg(){
   message.innerHTML += "Please enter a password.<br/>";
   message.className = "error-feedback";
   document.getElementById("password-wrapper").className = "form-group has-error has-feedback";
-  //message.className += " form-group has-warning has-feedback";
-  //document.getElementById("message-glyph").className = "glyphicon glyphicon-remove form-control-feedback";
-  //document.getElementById("password-glyph").className = "glyphicon glyphicon-remove form-control-feedback";
-  //document.getElementById("password-wrapper").className = "form-group has-error has-feedback";
 }
