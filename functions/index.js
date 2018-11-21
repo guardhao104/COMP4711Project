@@ -28,17 +28,17 @@ const token = "xKIaIjXkm4I2f4XQtM7a";
 
 // Usage: https://us-central1-a1-f09ef.cloudfunctions.net/getScore
 // Headers: {"token": "xKIaIjXkm4I2f4XQtM7a"}
-// Body: {"uid":" ", "ver": " "}
+// Body: {"id":" ", "ver": " "}
 exports.getScore = functions.https.onRequest((req, res) => {
     const userId = req.body.id;
     const quizVersion = req.body.ver;
     const getToken = req.headers.token;
     if (getToken === token) {
-        return admin.database().ref('/users/' + userId + '--' + quizVersion + '--').once('value').then(function(snapshot) {
+        return admin.database().ref('/records/' + quizVersion + '/' + userId.replace('.', '')).once('value').then(function(snapshot) {
             var email = (snapshot.val() && snapshot.val().email) || 'Anonymous';
             var score = (snapshot.val() && snapshot.val().score) || 'No record';
             return res.json({
-                uid: userId,
+                id: userId,
                 ver: quizVersion,
                 email: email,
                 score: score
@@ -59,11 +59,9 @@ exports.getTotalTaken = functions.https.onRequest((req, res) => {
     const getToken = req.headers.token;
     if (getToken === token) {
         var total = 0;
-        return admin.database().ref('/users/').once('value').then(function(snapshot) {
+        return admin.database().ref('/records/' + quizVersion + '/').once('value').then(function(snapshot) {
             snapshot.forEach(e => {
-                if (e.key.indexOf('--' + quizVersion + '--') !== -1) {
-                    ++total;
-                }
+                ++total;
             });
             return res.json({
                 ver: quizVersion,
@@ -79,37 +77,32 @@ exports.getTotalTaken = functions.https.onRequest((req, res) => {
 
 // Usage: https://us-central1-a1-f09ef.cloudfunctions.net/getRank
 // Headers: {"token": "xKIaIjXkm4I2f4XQtM7a"}
-// Body: {"uid":" ", "ver": " "}
+// Body: {"id":" ", "ver": " "}
 exports.getRank = functions.https.onRequest((req, res) => {
     const userId = req.body.id;
     const quizVersion = req.body.ver;
     const getToken = req.headers.token;
     if (getToken === token) {
-        var rank = -1;
-        var score = 0;
-        return admin.database().ref('/users/').orderByChild('score').once('value').then(function(snapshot) {
-            snapshot.forEach(e => {
-                if (e.key === userId + '--' + quizVersion + '--') {
-                    score = e.val().score;
-                    rank = 1;
+        return admin.database().ref('/records/' + quizVersion + '/' + userId.replace('.', '')).once('value').then(function(snapshot) {
+            if (snapshot.val()) {
+                var rank = 1;
+                var score = snapshot.val().score;
+                return admin.database().ref('/records/' + quizVersion + '/').orderByChild('score').startAt(score + 1).once('value').then(function(snapshot) {
                     snapshot.forEach(e => {
-                        if (e.key.indexOf('--' + quizVersion + '--') !== -1) {
-                            if (e.val().score > score) {
-                                ++rank;
-                            }
-                        }
+                        ++rank;
                     });
                     return res.json({
-                        uid: userId,
+                        id: userId,
                         ver: quizVersion,
                         score: score,
                         rank: rank
                     });
-                } 
-            });
-            return res.json({
-                message: "No such user's record"
-            });
+                });
+            } else {
+                return res.json({
+                    message: "No record for this user"
+                });
+            }
         });
     } else {
         return res.json({
