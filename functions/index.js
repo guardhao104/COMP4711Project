@@ -110,3 +110,47 @@ exports.getRank = functions.https.onRequest((req, res) => {
         });
     }
 });
+
+// Usage: https://us-central1-a1-f09ef.cloudfunctions.net/getRankPercent
+// Headers: {"token": "xKIaIjXkm4I2f4XQtM7a"}
+// Body: {"id":" ", "ver": " "}
+exports.getRankPercent = functions.https.onRequest((req, res) => {
+    const userId = req.body.id;
+    const quizVersion = req.body.ver;
+    const getToken = req.headers.token;
+    if (getToken === token) {
+        return admin.database().ref('/records/' + quizVersion + '/' + userId.replace('.', '')).once('value').then(function(snapshot) {
+            if (snapshot.val()) {
+                var rank = 0;
+                var score = snapshot.val().score;
+                var total = 0;
+                return admin.database().ref('/records/' + quizVersion + '/').once('value').then(function(snapshot) {
+                    snapshot.forEach(e => {
+                        ++total;
+                    });
+                    return admin.database().ref('/records/' + quizVersion + '/').orderByChild('score').startAt(score).once('value').then(function(snapshot) {
+                        snapshot.forEach(e => {
+                            ++rank;
+                        });
+                        var percent = rank / total * 100;
+                        return res.json({
+                            id: userId,
+                            ver: quizVersion,
+                            score: score,
+                            rankPercent: percent,
+                            rankString: percent.toPrecision(4) + '%'
+                        });
+                    });
+                });
+            } else {
+                return res.json({
+                    message: "No record for this user"
+                });
+            }
+        });
+    } else {
+        return res.json({
+            message: "Missing Authentication Token"
+        });
+    }
+});
