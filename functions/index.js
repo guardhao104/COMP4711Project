@@ -157,12 +157,13 @@ exports.getRankPercent = functions.https.onRequest((req, res) => {
                             ++rank;
                         });
                         var percent = rank / total * 100;
+                        var percentShow = percent - percent % 1 + (percent % 1 >= 0.5 ? 1 : 0);
                         return res.json({
                             id: userId,
                             ver: quizVersion,
                             score: score,
                             rankPercent: percent,
-                            rankString: percent.toPrecision(3) + '%'
+                            rankString: percentShow.toString() + '%'
                         });
                     });
                 });
