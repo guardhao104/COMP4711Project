@@ -38,7 +38,12 @@ exports.getScore = functions.https.onRequest((req, res) => {
     const quizVersion = req.body.ver;
     const getToken = req.headers.token;
     if (getToken === token) {
-        return admin.database().ref('/records/' + quizVersion + '/' + userId.replace('.', '')).once('value').then(function(snapshot) {
+        if (!(userId && quizVersion)) {
+            return res.json({
+                message: "Missing id or ver in request body"
+            });
+        }
+        return admin.database().ref('/records/' + quizVersion + '/' + userId.replace('.', '')).once('value').then((snapshot) => {
             var email = (snapshot.val() && snapshot.val().email) || 'Anonymous';
             var score = (snapshot.val() && snapshot.val().score) || 'No record';
             return res.json({
@@ -62,8 +67,13 @@ exports.getTotalTaken = functions.https.onRequest((req, res) => {
     const quizVersion = req.body.ver;
     const getToken = req.headers.token;
     if (getToken === token) {
+        if (!quizVersion) {
+            return res.json({
+                message: "Missing ver in request body"
+            });
+        }
         var total = 0;
-        return admin.database().ref('/records/' + quizVersion + '/').once('value').then(function(snapshot) {
+        return admin.database().ref('/records/' + quizVersion + '/').once('value').then((snapshot) => {
             snapshot.forEach(e => {
                 ++total;
             });
@@ -87,11 +97,16 @@ exports.getRank = functions.https.onRequest((req, res) => {
     const quizVersion = req.body.ver;
     const getToken = req.headers.token;
     if (getToken === token) {
-        return admin.database().ref('/records/' + quizVersion + '/' + userId.replace('.', '')).once('value').then(function(snapshot) {
+        if (!(userId && quizVersion)) {
+            return res.json({
+                message: "Missing id or ver in request body"
+            });
+        }
+        return admin.database().ref('/records/' + quizVersion + '/' + userId.replace('.', '')).once('value').then((snapshot) => {
             if (snapshot.val()) {
                 var rank = 1;
                 var score = snapshot.val().score;
-                return admin.database().ref('/records/' + quizVersion + '/').orderByChild('score').startAt(score + 1).once('value').then(function(snapshot) {
+                return admin.database().ref('/records/' + quizVersion + '/').orderByChild('score').startAt(score + 1).once('value').then((snapshot) => {
                     snapshot.forEach(e => {
                         ++rank;
                     });
@@ -123,16 +138,21 @@ exports.getRankPercent = functions.https.onRequest((req, res) => {
     const quizVersion = req.body.ver;
     const getToken = req.headers.token;
     if (getToken === token) {
-        return admin.database().ref('/records/' + quizVersion + '/' + userId.replace('.', '')).once('value').then(function(snapshot) {
+        if (!(userId && quizVersion)) {
+            return res.json({
+                message: "Missing id or ver in request body"
+            });
+        }
+        return admin.database().ref('/records/' + quizVersion + '/' + userId.replace('.', '')).once('value').then((snapshot) => {
             if (snapshot.val()) {
                 var rank = 0;
                 var score = snapshot.val().score;
                 var total = 0;
-                return admin.database().ref('/records/' + quizVersion + '/').once('value').then(function(snapshot) {
+                return admin.database().ref('/records/' + quizVersion + '/').once('value').then((snapshot) => {
                     snapshot.forEach(e => {
                         ++total;
                     });
-                    return admin.database().ref('/records/' + quizVersion + '/').orderByChild('score').startAt(score).once('value').then(function(snapshot) {
+                    return admin.database().ref('/records/' + quizVersion + '/').orderByChild('score').startAt(score).once('value').then((snapshot) => {
                         snapshot.forEach(e => {
                             ++rank;
                         });
