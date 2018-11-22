@@ -1,8 +1,12 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
+const bodyParser = require('body-parser')
+
+// Automatically allow cross-origin requests
+app.use(cors({ origin: true }));
 
 // bodyParser API
-var bodyParser = require('body-parser')
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
@@ -138,7 +142,7 @@ exports.getRankPercent = functions.https.onRequest((req, res) => {
                             ver: quizVersion,
                             score: score,
                             rankPercent: percent,
-                            rankString: percent.toPrecision(4) + '%'
+                            rankString: percent.toPrecision(3) + '%'
                         });
                     });
                 });
