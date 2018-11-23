@@ -96,11 +96,12 @@ function handleSignUp() {
       var errorMessage = error.message;
       var message = document.getElementById('message');
       message.className = "error-feedback";
+      
       // [START_EXCLUDE]
       if (errorCode == 'auth/weak-password') {
         //alert('The password is too weak.');
         message.innerHTML = 'The password is too weak.';
-        p_wrap = "form-group has-error has-feedback";
+        p_wrap.className = "form-group has-error has-feedback";
       } else {
         message.innerHTML = errorMessage;
       }
