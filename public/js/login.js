@@ -40,10 +40,10 @@ function toggleSignIn() {
         var errorCode = error.code;
         var errorMessage = error.message;
         var message = document.getElementById('message');
+        message.className = "error-feedback";
         // [START_EXCLUDE]
         if (errorCode === 'auth/wrong-password') {
           //alert('Wrong password.');
-          message.className = "error-feedback";
           p_wrap.className = "form-group has-error has-feedback";
           e_wrap.className = "form-group has-error has-feedback";
           message.innerHTML = "Your account information or password is wrong. Please check again."
@@ -94,10 +94,10 @@ function toggleSignIn() {
       var errorCode = error.code;
       var errorMessage = error.message;
       var message = document.getElementById('message');
+      message.className = "error-feedback";
       // [START_EXCLUDE]
       if (errorCode == 'auth/weak-password') {
         //alert('The password is too weak.');
-        message.className = "error-feedback";
         document.getElementById("password-wrapper").className = "form-group has-error has-feedback";
         message.innerHTML = 'The password is too weak.';
       } else {
