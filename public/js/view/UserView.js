@@ -18,8 +18,10 @@ UserView.prototype = {
         this.createChildren()
             .setupHandlers()
             .enable();
-		//this.buildQuestion();
 		$("#btn-container").hide();
+		$("#btn-leave").click(function(){
+			firebase.auth().signOut();
+		}.bind(this));
 		firebase.auth().onAuthStateChanged(function(user) {
 			if (user) {
 			this.user = user;
@@ -32,7 +34,7 @@ UserView.prototype = {
 			  var providerData = user.providerData;
 			  $("#user-welcome").html("Welcome! " + email);
 			} else {
-				window.location.href="index.html";
+				window.location.href="login.html";
 			}
 		}.bind(this));
     },
@@ -251,14 +253,8 @@ UserView.prototype = {
 					</tr>\
 				</tbody>\
 				</table>\
-				<button type='button' class='btn btn-danger btn-lg' id='btn-leave'>Log Off</button>\
 			</div>\
 		");
-		$("#btn-leave").click(function(){
-			window.location.href="index.html";
-			firebase.auth().signOut();
-		}.bind(this));
-
 	},
 
 	showRankAlert: function() {
@@ -270,10 +266,6 @@ UserView.prototype = {
 			  <button type='button' class='btn btn-danger btn-lg' id='btn-leave'>Log Off</button>\
 			</div>\
 		");
-		$("#btn-leave").click(function(){
-			window.location.href="index.html";
-			firebase.auth().signOut();
-		}.bind(this));
 
 	},
 

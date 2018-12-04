@@ -179,3 +179,15 @@ exports.getRankPercent = functions.https.onRequest((req, res) => {
         });
     }
 });
+
+
+
+// var uid = "some-uid";
+
+// admin.auth().createCustomToken(uid)
+//   .then(function(customToken) {
+//     // Send token back to client
+//   })
+//   .catch(function(error) {
+//     console.log("Error creating custom token:", error);
+//   });
