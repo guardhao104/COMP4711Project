@@ -5,6 +5,8 @@ var UserView = function (model) {
 	this.submitEvent = new Event(this);
 	this.diffecult = 0;
 	this.user;
+	this.userID;
+	this.userShownName;
 	this.database = firebase.database();
 	this.email = [];
 	this.score = [];
@@ -14,30 +16,82 @@ var UserView = function (model) {
 
 UserView.prototype = {
 
-    init: function () {
+    init: function() {
         this.createChildren()
             .setupHandlers()
             .enable();
 		$("#btn-container").hide();
-		$("#btn-leave").click(function(){
-			firebase.auth().signOut();
-		}.bind(this));
-		firebase.auth().onAuthStateChanged(function(user) {
-			if (user) {
-			this.user = user;
-			  var displayName = user.displayName;
-			  var email = user.email;
-			  var emailVerified = user.emailVerified;
-			  var photoURL = user.photoURL;
-			  var isAnonymous = user.isAnonymous;
-			  var uid = user.uid;
-			  var providerData = user.providerData;
-			  $("#user-welcome").html("Welcome! " + email);
-			} else {
+		if (this.getRequest()) {
+			$("#user-welcome").html("Welcome! " + this.userShownName);
+			$("#btn-leave").click(function() {
 				window.location.href="login.html";
-			}
-		}.bind(this));
-    },
+			}.bind(this));
+		} else {
+			$("#btn-leave").click(function() {
+				firebase.auth().signOut();
+			}.bind(this));
+			firebase.auth().onAuthStateChanged(function(user) {
+				if (user) {
+					const displayName = user.displayName;
+					const email = user.email;
+					const emailVerified = user.emailVerified;
+					const photoURL = user.photoURL;
+					const isAnonymous = user.isAnonymous;
+					const uid = user.uid;
+					const providerData = user.providerData;
+					this.user = user;
+					this.userID = uid;
+					this.userShownName = email;
+					$("#user-welcome").html("Welcome! " + this.userShownName);
+				} else {
+					window.location.href="login.html";
+				}
+			}.bind(this));
+		}
+	},
+	
+	getRequest: function() {
+		var url = location.search;
+		if (url.indexOf("?") != -1) {
+			var str = url.substr(1);
+			var strs = str.split("=");
+			const userInfo = JSON.parse(unescape(strs[1]));
+			const uid = userInfo.Username;
+			if (uid == undefined) { return false; }
+			const access = userInfo.AccessToken;
+			const refresh = userInfo.RefreshToken;
+			const time = userInfo.Expiration;
+			const sub = userInfo.sub;
+			const verified = userInfo.email_verified;
+			const given_name = userInfo.given_name;
+			const family_name = userInfo.family_name;
+			const email = userInfo.email;
+			this.user = userInfo;
+			this.userID = uid;
+			this.userShownName = email;
+			return true;				  
+		} else {
+			return false;
+		}
+	},
+	 
+	// signInCustomUser: function(uid) {
+	// 	$.get( "https://us-central1-a1-f09ef.cloudfunctions.net/permission?uid=" + uid, (data) => {
+	// 				const token = data.customToken;
+	// 				console.log(token);
+	// 				// TODO: post a request to verify this user information and permission.
+	// 				// $.post("test.php", { "func": "getNameAndTime" }, (data) => {
+	// 				// 		alert(data.name); // John
+	// 				// 		console.log(data.time); //  2pm
+	// 				// 	}, "json");
+	// 				firebase.auth().signInWithCustomToken(token).catch((error) => {
+	// 					// Handle Errors here.
+	// 					var errorCode = error.code;
+	// 					var errorMessage = error.message;
+	// 					// ...
+	// 				});
+	// 			});	
+	// },
 
     createChildren: function () {
         // cache the document object
@@ -200,12 +254,12 @@ UserView.prototype = {
 	},
 
 	writeRankData: function(userID, email, score) {
-		this.database.ref('/records/' + this.model.getDiffecult() + '/' + email.replace('.', '')).once('value').then(function(snapshot) {
+		this.database.ref('/records/' + this.model.getDiffecult() + '/' + userID).once('value').then(function(snapshot) {
 			if (snapshot.val()) {
 				console.log("Already have record!");
 				return;
 			} else {
-				this.database.ref('records/' + this.model.getDiffecult() + '/' + email.replace('.', '')).set({
+				this.database.ref('records/' + this.model.getDiffecult() + '/' + userID).set({
 					email: email,
 					score: score
 				});
@@ -296,7 +350,7 @@ UserView.prototype = {
 	submit: function () {
 		this.markQuestions(this.model.getDiffecult());
 		this.showResult();
-		this.writeRankData(this.user.uid, this.user.email, this.model.getScore());
+		this.writeRankData(this.userID, this.userShownName, this.model.getScore());
 		this.readRankData();
 	},
 

@@ -180,14 +180,21 @@ exports.getRankPercent = functions.https.onRequest((req, res) => {
     }
 });
 
-
-
-// var uid = "some-uid";
-
-// admin.auth().createCustomToken(uid)
-//   .then(function(customToken) {
-//     // Send token back to client
-//   })
-//   .catch(function(error) {
-//     console.log("Error creating custom token:", error);
-//   });
+// Create a custom token for a permission user.
+// Usage: https://us-central1-a1-f09ef.cloudfunctions.net/permission?uid=UID
+exports.permission = functions.https.onRequest((req, res) => {
+    const uid = req.query.uid;
+    if (!uid) return;
+    admin.auth().createCustomToken(uid).then((customToken) => {
+        return res.json({
+            customToken: customToken
+        });
+    })
+    .catch((error) => {
+        console.log("Error creating custom token:", error);
+        return res.json({
+            error: error
+        })
+    });
+});
+  
