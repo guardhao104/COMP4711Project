@@ -5,8 +5,8 @@
     <!-- Basic Page Needs
 	–––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <meta charset="utf-8">
-    <title>Login</title>
-    <meta name="description" content="Login page for user login">
+    <title>Quiz User</title>
+    <meta name="description" content="User page for finishing quiz">
     <meta name="author" content="Harley Guan">
 
     <!-- Mobile Specific Metas
@@ -20,15 +20,6 @@
     <!-- CSS
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <!--
-      apparently an old version here
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
-            integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
-            crossorigin="anonymous">
-      how did you get the new version
-
-      also glyphs don't work.
-    -->
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css" />
     <link rel="stylesheet" href="css/quiz.css">
 
@@ -41,37 +32,54 @@
     <script src="https://www.gstatic.com/firebasejs/5.5.7/firebase-database.js"></script>
     <script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
     <script src="js/config.js"></script>
-    <script src="js/login.js"></script>
 
 </head>
 
+
 <body>
-<div class="container">
-
-      <!-- Container for the demo -->
-      <div class="container">
-        <div class="mdl-card__title mdl-color--light-blue-600 mdl-color-text--white">
-          <h2 class="mdl-card__title-text">Email &amp; Password Login</h2>
+    <nav class="navbar navbar-dark bg-dark">
+        <p class="navbar-brand" id="user-welcome">Welcome!</p>
+        <button type='button' class='btn btn-danger btn-lg' id='btn-leave'>Log Out</button>
+    </nav>
+    <div class="container" id="alert-message-div"></div> 
+	
+	<div class="container">
+	
+		<!-- init-container -->
+	
+		<div id="init-container">
+			<h1>Please select a quiz!</h1>
+			<br><br><br>
+			<button type="button" class="btn btn-warning" id="btn-easy">JAVASCRIPT</button>
+			<button type="button" class="btn btn-danger" id="btn-hard">ANDROID</button>
+			  
+		</div>
+	
+		<!-- text-container -->
+	
+	    <div id="text-container">
+		
+		  
+		  
         </div>
-        <div class="mdl-card__supporting-text mdl-color-text--grey-600">
-          <p>Enter an email and password below and either sign in to an existing account or sign up</p>
-          <div class="form-group" id="email-wrapper">
-            <input class="mdl-textfield__input" style="display:inline;width:auto;" type="text" id="email" name="email" placeholder="Email"/>
-            <!--<span id="email-glyph"></span>-->
-          </div>
-          <div class="form-group" id="password-wrapper">
-            <input class="mdl-textfield__input" style="display:inline;width:auto;" type="password" id="password" name="password" placeholder="Password"/>
-            <!--<span class="glyphicon glyphicon-lock" id="password-glyph"></span>-->
-          </div>
-          <p class="text-justify" id="message"></p>
-          <span id="message-glyph"></span>
-          <br/>
-          <button type="button" class="btn btn-primary btn-lg" id="signin">Sign In</button>
-          &nbsp;&nbsp;&nbsp;
-          <button type="button" class="btn btn-success btn-lg" id="signup">Sign Up</button>
+		
+		<!-- btn-container -->
+		
+		<div id="btn-container">
+			<button type="button" class="btn btn-success" id="btn-submit">SUBMIT</button>
+		</div>
+		
+		
+	</div>
+	
+	<!-- Javascript files -->
 
-        </div>
-      </div>
-</div>
+    <script src="js/model/EventDispatcher.js"></script>
+    <script src="js/model/UserModel.js"></script>
+    <script src="js/view/UserView.js"></script>
+    <script src="js/controller/UserController.js"></script>
+    <script src="js/UserApp.js"></script>
+
 </body>
+
 </html>

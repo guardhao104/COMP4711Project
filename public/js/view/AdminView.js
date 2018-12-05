@@ -17,7 +17,7 @@ AdminView.prototype = {
 					if (user) {
 
 					} else {
-						window.location.href="index.html";
+						window.location.href="login.html";
 					}
 				}.bind(this));
     },
@@ -197,7 +197,7 @@ AdminView.prototype = {
 			  <h4 class='alert-heading'>Successfully submitted!</h4>\
 			  <p>Aww yeah, you successfully submitted all questions into local storage. If you open the user web page, there will be a quiz composed by these questions.</p>\
 			  <hr>\
-			  <p class='mb-0'>You can go to <a href='./index.html'>login page</a> now.</p>\
+			  <p class='mb-0'>You can go to <a href='./login.html'>login page</a> now.</p>\
 			</div>\
 		");
 		}
