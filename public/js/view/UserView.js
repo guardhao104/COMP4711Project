@@ -23,8 +23,9 @@ UserView.prototype = {
 		$("#btn-container").hide();
 		if (this.getRequest()) {
 			$("#user-welcome").html("Welcome! " + this.userShownName);
+			$("#btn-leave").text("HOME");
 			$("#btn-leave").click(function() {
-				window.location.href="login.html";
+				window.location.href="https://rankup.pro/";
 			}.bind(this));
 		} else {
 			$("#btn-leave").click(function() {
@@ -56,6 +57,7 @@ UserView.prototype = {
 			var str = url.substr(1);
 			var strs = str.split("=");
 			const userInfo = JSON.parse(unescape(strs[1]));
+			if (userInfo == undefined) { return false; }
 			const uid = userInfo.Username;
 			if (uid == undefined) { return false; }
 			const access = userInfo.AccessToken;
@@ -159,9 +161,9 @@ UserView.prototype = {
 	buildQuestion: function (diffecult) {
 		$("#alert-message").remove();
 		if (diffecult === 1) {
-			var tag = "easy";
+			var tag = 1;
 		} else if (diffecult === 2) {
-			var tag = "hard";
+			var tag = 2;
 		} else {
 			return -1;
 		}
@@ -190,9 +192,9 @@ UserView.prototype = {
 	
 	markQuestions: function (diffecult) {
 		if (diffecult === 1) {
-			var tag = "easy";
+			var tag = 1;
 		} else if (diffecult === 2) {
-			var tag = "hard";
+			var tag = 2;
 		} else {
 			return -1;
 		}

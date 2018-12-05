@@ -39,14 +39,14 @@ UserModel.prototype = {
 		}
 		if (this.diffecult === 1) {
 			for (let i=0;i<this.number;i++) {
-				if (this.questions[i].tag == "easy") {
+				if (this.questions[i].tag == 1) {
 					return 1;
 				}
 			}
 		}
 		if (this.diffecult === 2) {
 			for (let i=0;i<this.number;i++) {
-				if (this.questions[i].tag == "hard") {
+				if (this.questions[i].tag == 2) {
 					return 1;
 				}
 			}

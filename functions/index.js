@@ -180,6 +180,79 @@ exports.getRankPercent = functions.https.onRequest((req, res) => {
     }
 });
 
+// Usage: https://us-central1-a1-f09ef.cloudfunctions.net/getRankPercentUsers
+// Headers: {"token": "xKIaIjXkm4I2f4XQtM7a"}
+// Body: {"ver":"(1 or 2)", "comparator": "(>= or <=)", "percentage": " "}
+exports.getRankPercentUsers = functions.https.onRequest((req, res) => {
+    const quizVersion = req.body.ver;
+    const comparator = req.body.comparator;
+    const percentage = req.body.percentage;
+    const getToken = req.headers.token;
+    var total = 0;
+    var score = [[]];
+    var usersSub = [];
+    if (getToken === token) {
+        if (!(quizVersion && comparator && percentage)) {
+            return res.json({
+                message: "Missing ver or comparator or percentage in request body"
+            });
+        }
+        return admin.database().ref('/quiz/quiz/').once('value').then((snapshot) => {
+            snapshot.forEach(e => {
+                if (parseInt(e.val().tag) === parseInt(quizVersion)) {
+                    score.push([]);
+                }
+            })
+            return admin.database().ref('/records/' + quizVersion + '/').orderByChild('score').once('value').then((snapshot) => {
+                snapshot.forEach(e => {
+                    ++total;
+                    score[e.val().score].push(e.key);
+                });
+                let topUserNum = 0;
+                let lowwerScore = 0;
+                let upperScore = 0;
+                for (let i = score.length - 1; i >= 0; --i) {
+                    topUserNum += score[i].length;
+                    if (topUserNum / total > percentage / 100) {
+                        lowwerScore = i;
+                        upperScore = i + 1;
+                        break;
+                    } else if (topUserNum / total === percentage / 100) {
+                        lowwerScore = i;
+                        upperScore = i;
+                        break;
+                    }
+                }
+                if (comparator === "<=") {
+                    for (let i = score.length - 1; i >= upperScore; --i) {
+                        for (let j = 0; j < score[i].length; ++j) {
+                            usersSub.push(score[i][j]);
+                        }
+                    }
+                } else if (comparator === ">=") {
+                    for (let i = lowwerScore; i >= 0; --i) {
+                        for (let j = 0; j < score[i].length; ++j) {
+                            usersSub.push(score[i][j]);
+                        }
+                    }
+                } else {
+                    return res.json({
+                        message: "The comparator is invalid (only >= and <= is valid)"
+                    });
+                }
+                return res.json({
+                    ver: quizVersion,
+                    users: usersSub
+                })
+            });
+        });
+    } else {
+        return res.json({
+            message: "Missing Authentication Token"
+        });
+    }
+});
+
 // Create a custom token for a permission user.
 // Usage: https://us-central1-a1-f09ef.cloudfunctions.net/permission?uid=UID
 exports.permission = functions.https.onRequest((req, res) => {

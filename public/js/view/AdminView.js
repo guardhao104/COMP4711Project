@@ -171,7 +171,7 @@ AdminView.prototype = {
 			}
 			let index = this.chkRadio(radio_name);
 			let radio = $("input[type='radio'][name='difficult"+i+"']");
-			let difficult = (radio.index(radio.filter(':checked'))===0) ? "easy" : "hard";
+			let difficult = (radio.index(radio.filter(':checked'))===0) ? 1 : 2;
 			if (index == -1) {
 				return 0;
 			} else {
